@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Sensible webpack 5 boilerplate using Babel, PostCSS and Sass.
+A sample project with pixiJs 7. It showcases how to redraw content that always centerize into canvas size across multiple device. 
+This is using webpack 5 boilerplate using Babel, PostCSS and Sass.
 
 ## Installation
 
@@ -90,7 +91,7 @@ cd dist && http-server
 
 ## Author
 
-- [Tania Rascia](https://www.taniarascia.com)
+- boilerplate by [Tania Rascia](https://www.taniarascia.com)
 
 ## License
 
