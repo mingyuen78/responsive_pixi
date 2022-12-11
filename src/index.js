@@ -1,5 +1,5 @@
-import webpackLogo from '@/images/webpack-logo.svg';
 import '@/styles/index.scss';
+// needed because I'm using async - for some reason there will be an error if i dont include this.
 import "regenerator-runtime/runtime";
 import * as PIXI from 'pixi.js';
 import { Assets, Sprite } from 'pixi.js';
@@ -28,6 +28,7 @@ export default class App {
         this.DEADCENTER_H = this.parentWidth / 2;
         this.DEADCENTER_V = this.parentHeight / 2;
         if (this.PRELOADED) {
+            //clear stage and re-render, preload not necessary as assets are loaded already;
             this.app.stage.removeChildren();
             this.drawScene();
         }
@@ -94,7 +95,6 @@ export default class App {
         this.bunnyContainer.addChild(bunny1);
         this.bunnyContainer.addChild(bunny2);
         this.bunnyContainer.addChild(bunny3);
-
 
         this.app.stage.addChild(this.bgContainer);
         this.app.stage.addChild(this.bunnyContainer);
