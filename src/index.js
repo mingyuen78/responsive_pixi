@@ -2,7 +2,7 @@ import '@/styles/index.scss';
 // needed because I'm using async - for some reason there will be an error if i dont include this.
 import "regenerator-runtime/runtime";
 import * as PIXI from 'pixi.js';
-import { Assets, Sprite } from 'pixi.js';
+import { AnimatedSprite, Assets, Sprite } from 'pixi.js';
 
 export default class App {
     init() {
@@ -39,13 +39,15 @@ export default class App {
         this.spriteText.x = (this.parentWidth / 2);
         this.spriteText.y = (this.parentHeight / 2);
         this.app.stage.addChild(this.spriteText);
-
+        // it seems if you have json animated sprite from texture packer, 
+        // make sure the json file is sit together with the png file.
         Assets.addBundle('pipeline', {
             bunny: 'bunny.png',
             example: 'example.png',
             favicon: 'favicon.png',
             largebg: 'bg.jpg',
-            bg: 'bgiso.png'
+            bg: 'bgiso.png',
+            flag: '../flag/flag.json'
         });
         this.assetPipeline = await Assets.loadBundle('pipeline', (evt) => { this.onProgress(evt) });
         this.drawScene();
@@ -56,7 +58,7 @@ export default class App {
             this.PRELOADED = true;
             this.spriteText.destroy();
         } else {
-            this.spriteText.text = `Loading ${evt * 100}%...`;
+            this.spriteText.text = `Loading ${Math.ceil(evt) * 100}%...`;
         }
     }
     drawScene() {
@@ -65,6 +67,7 @@ export default class App {
         let bgTexture = this.assetPipeline.bg;
         this.bgContainer = new PIXI.Container();
         this.bunnyContainer = new PIXI.Container();
+        this.flagContainer = new PIXI.Container();
 
         let bg = Sprite.from(bgTexture);
         bg.anchor.set(0.5);
@@ -91,6 +94,14 @@ export default class App {
         bunny3.x = this.DEADCENTER_H - 85;
         bunny3.y = this.DEADCENTER_V - 55;
 
+        let flagAnim = this.assetPipeline.flag;
+        let flgAnim = new AnimatedSprite(flagAnim.animations['Flag']);
+        flgAnim.anchor.set(0.5);
+        flgAnim.x = this.DEADCENTER_H - 170;
+        flgAnim.y = this.DEADCENTER_V + 10;
+        flgAnim.play();
+        this.flagContainer.addChild(flgAnim);
+
         //container to add layering, zindex.
         this.bunnyContainer.addChild(bunny1);
         this.bunnyContainer.addChild(bunny2);
@@ -98,6 +109,7 @@ export default class App {
 
         this.app.stage.addChild(this.bgContainer);
         this.app.stage.addChild(this.bunnyContainer);
+        this.app.stage.addChild(this.flagContainer);
     }
 
 }
